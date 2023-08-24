@@ -8,6 +8,10 @@ export function Home() {
     <HomeContainer>
       <Profile />
 
+      <p>
+        Publicações
+        <span>6 publicações</span>
+      </p>
       <SearchForm />
     </HomeContainer>
   )
