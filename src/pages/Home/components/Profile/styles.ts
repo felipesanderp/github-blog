@@ -26,6 +26,15 @@ export const UserInfo = styled.div`
   flex-direction: column;
   gap: 0.5rem;
 
+  span {
+    line-height: 1.5rem;
+  }
+`
+export const ProfileTitle = styled.header`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
   h3 {
     color: ${(props) => props.theme['base-title']};
     font-size: 1.5rem;
@@ -33,10 +42,27 @@ export const UserInfo = styled.div`
     line-height: 1.5rem;
   }
 
-  span {
-    line-height: 1.5rem;
+  a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: ${(props) => props.theme.blue};
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    svg {
+      width: 12px;
+      height: 12px;
+      color: ${(props) => props.theme.blue};
+    }
   }
 `
+
 export const UserInfoIcons = styled.div`
   display: flex;
   align-items: center;
@@ -47,5 +73,12 @@ export const UserInfoIcons = styled.div`
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    color: ${(props) => props.theme['base-subtitle']};
+
+    svg {
+      width: 18px;
+      height: 18px;
+      color: ${(props) => props.theme['base-label']};
+    }
   }
 `
