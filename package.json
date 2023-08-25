@@ -16,7 +16,9 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.10.1",
     "react-router-dom": "^6.15.0",
-    "styled-components": "^6.0.7"
+    "scheduler": "^0.23.0",
+    "styled-components": "^6.0.7",
+    "use-context-selector": "^1.4.1"
   },
   "devDependencies": {
     "@rocketseat/eslint-config": "^2.1.0",

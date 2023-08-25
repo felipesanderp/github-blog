@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useContextSelector } from 'use-context-selector'
 
 import {
   FaBuilding,
@@ -7,70 +7,51 @@ import {
   FaUpRightFromSquare,
 } from 'react-icons/fa6'
 
-import { api } from '../../../../lib/axios'
-
 import {
   ProfileContainer,
   UserInfo,
   ProfileTitle,
   UserInfoIcons,
 } from './styles'
-
-interface User {
-  id: number
-  name: string
-  login: string
-  bio: string
-  avatar_url: string
-  company: string | null
-  followers: number
-}
+import { BlogContext } from '../../../../contexts/BlogContext'
 
 export function Profile() {
-  const [githubUser, setGithubUser] = useState<User>()
-
-  const fetchUserInfo = useCallback(async () => {
-    const response = await api.get('users/felipesanderp')
-
-    setGithubUser(response.data)
-  }, [])
-
-  useEffect(() => {
-    fetchUserInfo()
-  }, [fetchUserInfo])
+  const user = useContextSelector(BlogContext, (context) => {
+    return context.user
+  })
 
   return (
     <ProfileContainer>
-      <img src={githubUser?.avatar_url} alt="Felipe Sander" />
+      <img src={user?.avatar_url} alt="Felipe Sander" />
 
       <UserInfo>
         <ProfileTitle>
-          <h3>{githubUser?.name}</h3>
+          <h3>{user?.name}</h3>
           <a
             target="_blank"
             rel="stylesheet noreferrer"
-            href={`https://github.com/${githubUser?.login}`}
+            href={`https://github.com/${user?.login}`}
           >
             GITHUB
             <FaUpRightFromSquare />
           </a>
         </ProfileTitle>
-        <span>{githubUser?.bio}</span>
+        <span>{user?.bio}</span>
 
         <UserInfoIcons>
           <span>
             <FaGithub />
-            {githubUser?.login}
+            {user?.login}
           </span>
 
           <span>
             <FaBuilding />
-            {githubUser?.company}
+            {user?.company}
           </span>
 
           <span>
             <FaUserGroup />
-            {githubUser?.followers} seguidores
+            {user?.followers} seguidores
           </span>
         </UserInfoIcons>
       </UserInfo>
