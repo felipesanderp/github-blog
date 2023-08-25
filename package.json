@@ -11,16 +11,19 @@
     "lint:fix": "eslint src --ext .tsx,.ts --fix"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.3.0",
     "axios": "^1.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.45.4",
     "react-icons": "^4.10.1",
     "react-markdown": "^8.0.7",
     "react-router-dom": "^6.15.0",
     "remark-gfm": "^3.0.1",
     "scheduler": "^0.23.0",
     "styled-components": "^6.0.7",
-    "use-context-selector": "^1.4.1"
+    "use-context-selector": "^1.4.1",
+    "zod": "^3.22.2"
   },
   "devDependencies": {
     "@rocketseat/eslint-config": "^2.1.0",

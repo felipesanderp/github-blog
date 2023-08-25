@@ -52,11 +52,13 @@ export function BlogProvider({ children }: BlogProviderProps) {
 
   const fetchIssues = useCallback(
     async (query?: string) => {
-      const response = await api.get(
-        `search/issues?q=${
-          query !== undefined ? query : ''
-        }repo:${githubUser?.login}/github-blog`,
-      )
+      const response = await api.get(`search/issues?`, {
+        params: {
+          q:
+            (query !== undefined ? query : '') +
+            `repo:${githubUser?.login}/github-blog`,
+        },
+      })
 
       setIssues(response.data)
     },
