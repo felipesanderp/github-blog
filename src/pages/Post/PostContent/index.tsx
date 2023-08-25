@@ -2,10 +2,14 @@ import ReactMarkdown from 'react-markdown'
 
 import { PostContentContainer } from './styles'
 
-export function PostContent() {
+interface PostContentProps {
+  body: string
+}
+
+export function PostContent({ body }: PostContentProps) {
   return (
     <PostContentContainer>
-      <ReactMarkdown>teste</ReactMarkdown>
+      <ReactMarkdown>{body}</ReactMarkdown>
     </PostContentContainer>
   )
 }

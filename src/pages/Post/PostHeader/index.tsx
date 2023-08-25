@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+import { Link } from 'react-router-dom'
 import {
   FaGithub,
   FaUpRightFromSquare,
@@ -12,9 +14,24 @@ import {
   PostHeaderInfo,
   PostHeaderLinks,
 } from './styles'
-import { Link } from 'react-router-dom'
 
-export function PostHeader() {
+interface PostHeaderProps {
+  title: string
+  created_at: string
+  html_url: string
+  user: {
+    login: string
+  }
+  comments: number
+}
+
+export function PostHeader({
+  title,
+  html_url,
+  created_at,
+  user,
+  comments,
+}: PostHeaderProps) {
   return (
     <PostHeaderContainer>
       <PostHeaderLinks>
@@ -22,19 +39,19 @@ export function PostHeader() {
           <FaChevronLeft />
           VOLTAR
         </Link>
-        <a href="#">
+        <a target="_blank" href={html_url} rel="noreferrer">
           VER NO GITHUB
           <FaUpRightFromSquare />
         </a>
       </PostHeaderLinks>
 
       <PostHeaderContent>
-        <h2>JavaScript data types and data structures</h2>
+        <h2>{title}</h2>
 
         <PostHeaderInfo>
           <span>
             <FaGithub />
-            felipesanderp
+            {user.login}
           </span>
 
           <span>
@@ -43,7 +60,8 @@ export function PostHeader() {
           </span>
 
           <span>
-            <FaComment />5 comentários
+            <FaComment />
+            {comments} comentários
           </span>
         </PostHeaderInfo>
       </PostHeaderContent>
