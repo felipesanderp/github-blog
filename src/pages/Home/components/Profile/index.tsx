@@ -1,9 +1,13 @@
+import { useCallback, useEffect, useState } from 'react'
+
 import {
   FaBuilding,
   FaGithub,
   FaUserGroup,
   FaUpRightFromSquare,
 } from 'react-icons/fa6'
+
+import { api } from '../../../../lib/axios'
 
 import {
   ProfileContainer,
@@ -12,43 +16,61 @@ import {
   UserInfoIcons,
 } from './styles'
 
+interface User {
+  id: number
+  name: string
+  login: string
+  bio: string
+  avatar_url: string
+  company: string | null
+  followers: number
+}
+
 export function Profile() {
+  const [githubUser, setGithubUser] = useState<User>()
+
+  const fetchUserInfo = useCallback(async () => {
+    const response = await api.get('users/felipesanderp')
+
+    setGithubUser(response.data)
+  }, [])
+
+  useEffect(() => {
+    fetchUserInfo()
+  }, [fetchUserInfo])
+
   return (
     <ProfileContainer>
-      <img src="https://github.com/felipesanderp.png" alt="Felipe Sander" />
+      <img src={githubUser?.avatar_url} alt="Felipe Sander" />
 
       <UserInfo>
         <ProfileTitle>
-          <h3>Felipe Sander</h3>
+          <h3>{githubUser?.name}</h3>
           <a
             target="_blank"
             rel="stylesheet noreferrer"
-            href="https://github.com/felipesanderp"
+            href={`https://github.com/${githubUser?.login}`}
           >
             GITHUB
             <FaUpRightFromSquare />
           </a>
         </ProfileTitle>
-        <span>
-          Tristique volutpat pulvinar vel massa, pellentesque egestas. Eu
-          viverra massa quam dignissim aenean malesuada suscipit. Nunc, volutpat
-          pulvinar vel mass.
-        </span>
+        <span>{githubUser?.bio}</span>
 
         <UserInfoIcons>
           <span>
             <FaGithub />
-            felipesanderp
+            {githubUser?.login}
           </span>
 
           <span>
             <FaBuilding />
-            Rocketseat
+            {githubUser?.company}
           </span>
 
           <span>
             <FaUserGroup />
-            32 seguidores
+            {githubUser?.followers} seguidores
           </span>
         </UserInfoIcons>
       </UserInfo>
