@@ -1,7 +1,14 @@
-import { useParams } from 'react-router-dom'
+// import { useParams } from 'react-router-dom'
+import { PostHeader } from './PostHeader'
+
+import { PostContainer } from './styles'
 
 export function Post() {
-  const { issueNumber } = useParams()
+  // const { issueNumber } = useParams()
 
-  return <h1>{issueNumber}</h1>
+  return (
+    <PostContainer>
+      <PostHeader />
+    </PostContainer>
+  )
 }
