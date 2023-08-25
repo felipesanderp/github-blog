@@ -17,12 +17,12 @@ export function Home() {
 
       <p>
         Publicações
-        <span>{issues?.length} publicações</span>
+        <span>{issues?.total_count} publicações</span>
       </p>
       <SearchForm />
 
       <PostCards>
-        {issues?.map((issue) => <PostCard key={issue.number} {...issue} />)}
+        {issues?.items.map((issue) => <PostCard key={issue.id} {...issue} />)}
       </PostCards>
     </HomeContainer>
   )

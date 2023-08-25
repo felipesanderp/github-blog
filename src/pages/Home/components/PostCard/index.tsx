@@ -3,10 +3,11 @@ import ReactMarkdown from 'react-markdown'
 import { PostCardContainer, PostCardHeader } from './styles'
 
 interface PostCardProps {
-  title: string
-  body: string
   number: number
+  title: string
   state: 'open' | 'closed'
+  body: string
+  created_at: string
 }
 
 export function PostCard({ title, body, number, state }: PostCardProps) {

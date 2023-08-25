@@ -1,4 +1,5 @@
 import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 import { PostContentContainer } from './styles'
 
@@ -9,7 +10,7 @@ interface PostContentProps {
 export function PostContent({ body }: PostContentProps) {
   return (
     <PostContentContainer>
-      <ReactMarkdown>{body}</ReactMarkdown>
+      <ReactMarkdown remarkPlugins={[remarkGfm]}>{body}</ReactMarkdown>
     </PostContentContainer>
   )
 }
