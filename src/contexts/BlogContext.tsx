@@ -12,8 +12,17 @@ interface User {
   followers: number
 }
 
+interface Issue {
+  number: number
+  title: string
+  body: string
+  state: 'open' | 'closed'
+  created_at: string
+}
+
 interface BlogContextType {
   user: User | undefined
+  issues: Issue[] | undefined
 }
 
 export const BlogContext = createContext({} as BlogContextType)
@@ -24,6 +33,7 @@ interface BlogProviderProps {
 
 export function BlogProvider({ children }: BlogProviderProps) {
   const [githubUser, setGithubUser] = useState<User>()
+  const [issues, setIssues] = useState<Issue[]>()
 
   const fetchUserInfo = useCallback(async () => {
     const response = await api.get('users/felipesanderp')
@@ -35,8 +45,20 @@ export function BlogProvider({ children }: BlogProviderProps) {
     fetchUserInfo()
   }, [fetchUserInfo])
 
+  const fetchIssues = useCallback(async () => {
+    const response = await api.get(
+      `repos/${githubUser?.login}/github-blog/issues`,
+    )
+
+    setIssues(response.data)
+  }, [githubUser?.login])
+
+  useEffect(() => {
+    fetchIssues()
+  }, [fetchIssues])
+
   return (
-    <BlogContext.Provider value={{ user: githubUser }}>
+    <BlogContext.Provider value={{ user: githubUser, issues }}>
       {children}
     </BlogContext.Provider>
   )

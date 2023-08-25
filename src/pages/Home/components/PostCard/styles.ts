@@ -1,14 +1,17 @@
 import { css, styled } from 'styled-components'
 
 interface PostContainerProps {
-  disabled?: boolean
+  state: 'open' | 'closed'
 }
 
-export const PostCardContainer = styled.div<PostContainerProps>`
-  height: 16.25rem;
+export const PostCardContainer = styled.a<PostContainerProps>`
+  height: 15rem;
   border-radius: 10px;
   padding: 2rem;
   background: ${(props) => props.theme['base-post']};
+  color: inherit;
+
+  text-decoration: none;
 
   border: transparent;
   transition: 0.2s;
@@ -16,6 +19,7 @@ export const PostCardContainer = styled.div<PostContainerProps>`
   > p {
     margin-top: 1.25rem;
 
+    max-width: 320px;
     display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
@@ -24,7 +28,7 @@ export const PostCardContainer = styled.div<PostContainerProps>`
   }
 
   ${(props) =>
-    props.disabled === true
+    props.state === 'closed'
       ? css`
           opacity: 0.75;
         `
@@ -32,6 +36,7 @@ export const PostCardContainer = styled.div<PostContainerProps>`
           &:hover {
             scale: 1.05;
             border: 1px solid ${(props) => props.theme['base-label']};
+            text-decoration: underline;
           }
         `}
 `
