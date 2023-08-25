@@ -1,10 +1,11 @@
+import { Link } from 'react-router-dom'
 import { css, styled } from 'styled-components'
 
 interface PostContainerProps {
   state: 'open' | 'closed'
 }
 
-export const PostCardContainer = styled.a<PostContainerProps>`
+export const PostCardContainer = styled(Link)<PostContainerProps>`
   height: 15rem;
   border-radius: 10px;
   padding: 2rem;
