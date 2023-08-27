@@ -1,6 +1,6 @@
-import ReactMarkdown from 'react-markdown'
-
+/* eslint-disable camelcase */
 import { PostCardContainer, PostCardHeader } from './styles'
+import { relativeDateFormatter } from '../../../../utils/dataFormatter'
 
 interface PostCardProps {
   number: number
@@ -10,17 +10,23 @@ interface PostCardProps {
   created_at: string
 }
 
-export function PostCard({ title, body, number, state }: PostCardProps) {
+export function PostCard({
+  title,
+  body,
+  number,
+  state,
+  created_at,
+}: PostCardProps) {
+  const formattedDate = relativeDateFormatter(created_at)
+
   return (
     <PostCardContainer to={`/post/${number}`} state={state}>
       <PostCardHeader>
         <h3>{title}</h3>
-        <span>Há 1 dia</span>
+        <span>{formattedDate}</span>
       </PostCardHeader>
 
-      <p>
-        <ReactMarkdown>{body}</ReactMarkdown>
-      </p>
+      <p>{body}</p>
     </PostCardContainer>
   )
 }

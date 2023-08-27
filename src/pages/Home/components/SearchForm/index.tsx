@@ -1,4 +1,4 @@
-import { useForm, Controller } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import * as zod from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useContextSelector } from 'use-context-selector'
@@ -15,11 +15,11 @@ export function SearchForm() {
     return context.fetchIssues
   })
 
-  const { control, handleSubmit } = useForm<zod.infer<typeof searchFormSchema>>(
-    {
-      resolver: zodResolver(searchFormSchema),
-    },
-  )
+  const { register, handleSubmit } = useForm<
+    zod.infer<typeof searchFormSchema>
+  >({
+    resolver: zodResolver(searchFormSchema),
+  })
 
   async function handleSearchIssues(data: zod.infer<typeof searchFormSchema>) {
     await fetchIssues(data.query)
@@ -27,14 +27,7 @@ export function SearchForm() {
 
   return (
     <SearchFormContainer onSubmit={handleSubmit(handleSearchIssues)}>
-      <Controller
-        defaultValue=""
-        control={control}
-        name="query"
-        render={({ field }) => {
-          return <input type="text" placeholder="Buscar conteúdo" {...field} />
-        }}
-      />
+      <input type="text" placeholder="Buscar conteúdo" {...register} />
     </SearchFormContainer>
   )
 }

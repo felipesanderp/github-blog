@@ -37,13 +37,13 @@ interface BlogProviderProps {
 }
 
 export function BlogProvider({ children }: BlogProviderProps) {
-  const [githubUser, setGithubUser] = useState<User>()
+  const [user, setUser] = useState<User>()
   const [issues, setIssues] = useState<Issue>()
 
   const fetchUserInfo = useCallback(async () => {
     const response = await api.get('users/felipesanderp')
 
-    setGithubUser(response.data)
+    setUser(response.data)
   }, [])
 
   useEffect(() => {
@@ -51,18 +51,18 @@ export function BlogProvider({ children }: BlogProviderProps) {
   }, [fetchUserInfo])
 
   const fetchIssues = useCallback(
-    async (query?: string) => {
-      const response = await api.get(`search/issues?`, {
-        params: {
-          q:
-            (query !== undefined ? query : '') +
-            `repo:${githubUser?.login}/github-blog`,
-        },
-      })
+    async (query: string = '') => {
+      try {
+        const response = await api.get(
+          `/search/issues?q=${query}%20repo:${user?.login}/github-blog`,
+        )
 
-      setIssues(response.data)
+        setIssues(response.data)
+      } catch (error) {
+        console.log(error)
+      }
     },
-    [githubUser?.login],
+    [user?.login],
   )
 
   useEffect(() => {
@@ -70,7 +70,7 @@ export function BlogProvider({ children }: BlogProviderProps) {
   }, [fetchIssues])
 
   return (
-    <BlogContext.Provider value={{ user: githubUser, issues, fetchIssues }}>
+    <BlogContext.Provider value={{ user, issues, fetchIssues }}>
       {children}
     </BlogContext.Provider>
   )

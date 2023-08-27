@@ -1,5 +1,7 @@
+/* eslint-disable react/no-children-prop */
 import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 
 import { PostContentContainer } from './styles'
 
@@ -10,7 +12,27 @@ interface PostContentProps {
 export function PostContent({ body }: PostContentProps) {
   return (
     <PostContentContainer>
-      <ReactMarkdown remarkPlugins={[remarkGfm]}>{body}</ReactMarkdown>
+      <ReactMarkdown
+        children={body}
+        components={{
+          code({ node, inline, className, children, ...props }) {
+            const match = /language-(\w+)/.exec(className || '')
+            return !inline && match ? (
+              <SyntaxHighlighter
+                children={String(children).replace(/\n$/, '')}
+                style={dracula as any}
+                language={match[1]}
+                PreTag="div"
+                {...props}
+              />
+            ) : (
+              <code className={className} {...props}>
+                {children}
+              </code>
+            )
+          },
+        }}
+      />
     </PostContentContainer>
   )
 }
