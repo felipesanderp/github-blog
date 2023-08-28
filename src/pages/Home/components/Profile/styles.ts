@@ -20,6 +20,7 @@ export const ProfileContainer = styled.section`
 `
 
 export const UserInfo = styled.div`
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
