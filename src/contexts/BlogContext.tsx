@@ -32,11 +32,13 @@ export function BlogProvider({ children }: BlogProviderProps) {
   const [posts, setPosts] = useState<Post[]>([])
   const [isLoading, setIsLoading] = useState(false)
 
-  const fetchIssues = useCallback(async (query: string = '') => {
+  const fetchIssues = useCallback(async (query?: string) => {
     try {
       setIsLoading(true)
       const response = await api.get(
-        `/search/issues?q=${query}%20label:published%20repo:${username}/github-blog`,
+        `/search/issues?q=${
+          query !== undefined ? query : ''
+        }%20label:published%20repo:${username}/github-blog`,
       )
 
       setPosts(response.data.items)
