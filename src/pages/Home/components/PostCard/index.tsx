@@ -10,8 +10,13 @@ interface PostCardProps {
 export function PostCard({ post }: PostCardProps) {
   const formattedDate = relativeDateFormatter(post.created_at)
 
+  console.log(post)
+
   return (
-    <PostCardContainer to={`/post/${post.number}`} state={'open'}>
+    <PostCardContainer
+      to={`/post/${post.number}`}
+      labelName={post.labels[0].name}
+    >
       <PostCardHeader>
         <strong>{post.title}</strong>
         <span>{formattedDate}</span>

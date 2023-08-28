@@ -12,6 +12,11 @@ export interface Post {
   user: {
     login: string
   }
+  labels: [
+    {
+      name: 'Published' | 'Closed'
+    },
+  ]
 }
 
 interface BlogContextType {
@@ -38,7 +43,7 @@ export function BlogProvider({ children }: BlogProviderProps) {
       const response = await api.get(
         `/search/issues?q=${
           query !== undefined ? query : ''
-        }%20label:published%20repo:${username}/github-blog`,
+        }%20repo:${username}/github-blog`,
       )
 
       setPosts(response.data.items)

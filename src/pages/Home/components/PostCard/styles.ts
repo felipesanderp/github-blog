@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { css, styled } from 'styled-components'
 
 interface PostContainerProps {
-  state: 'open' | 'closed'
+  labelName: 'Published' | 'Closed'
 }
 
 export const PostCardContainer = styled(Link)<PostContainerProps>`
@@ -27,9 +27,11 @@ export const PostCardContainer = styled(Link)<PostContainerProps>`
   }
 
   ${(props) =>
-    props.state === 'closed'
+    props.labelName === 'Closed'
       ? css`
-          opacity: 0.75;
+          opacity: 0.7;
+          cursor: not-allowed;
+          pointer-events: none;
         `
       : css`
           &:hover {
