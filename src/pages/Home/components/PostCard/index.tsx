@@ -1,32 +1,23 @@
 /* eslint-disable camelcase */
 import { PostCardContainer, PostCardHeader } from './styles'
 import { relativeDateFormatter } from '../../../../utils/dataFormatter'
+import { Post } from '../../../../contexts/BlogContext'
 
 interface PostCardProps {
-  number: number
-  title: string
-  state: 'open' | 'closed'
-  body: string
-  created_at: string
+  post: Post
 }
 
-export function PostCard({
-  title,
-  body,
-  number,
-  state,
-  created_at,
-}: PostCardProps) {
-  const formattedDate = relativeDateFormatter(created_at)
+export function PostCard({ post }: PostCardProps) {
+  const formattedDate = relativeDateFormatter(post.created_at)
 
   return (
-    <PostCardContainer to={`/post/${number}`} state={state}>
+    <PostCardContainer to={`/post/${post.number}`} state={'open'}>
       <PostCardHeader>
-        <h3>{title}</h3>
+        <h3>{post.title}</h3>
         <span>{formattedDate}</span>
       </PostCardHeader>
 
-      <p>{body}</p>
+      <p>{post.body}</p>
     </PostCardContainer>
   )
 }

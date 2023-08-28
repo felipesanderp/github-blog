@@ -1,4 +1,4 @@
-import { useContextSelector } from 'use-context-selector'
+import { useCallback, useEffect, useState } from 'react'
 
 import {
   FaBuilding,
@@ -7,54 +7,87 @@ import {
   FaUpRightFromSquare,
 } from 'react-icons/fa6'
 
+import { api } from '../../../../lib/axios'
+
 import {
   ProfileContainer,
   UserInfo,
   ProfileTitle,
   UserInfoIcons,
 } from './styles'
-import { BlogContext } from '../../../../contexts/BlogContext'
+
+const username = import.meta.env.VITE_GITHUB_USERNAME
+
+interface User {
+  id: number
+  name: string
+  login: string
+  bio: string
+  avatar_url: string
+  company: string | null
+  followers: number
+}
 
 export function Profile() {
-  const user = useContextSelector(BlogContext, (context) => {
-    return context.user
-  })
+  const [user, setUser] = useState<User>({} as User)
+  const [isLoading, setIsLoading] = useState(false)
+
+  const fetchUserInfo = useCallback(async () => {
+    try {
+      setIsLoading(true)
+      const response = await api.get(`users/${username}`)
+
+      setUser(response.data)
+    } finally {
+      setIsLoading(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    fetchUserInfo()
+  }, [fetchUserInfo])
 
   return (
     <ProfileContainer>
-      <img src={user?.avatar_url} alt="Felipe Sander" />
+      {isLoading ? (
+        <h1>Carregando</h1>
+      ) : (
+        <>
+          <img src={user.avatar_url} alt="Felipe Sander" />
 
-      <UserInfo>
-        <ProfileTitle>
-          <h3>{user?.name}</h3>
-          <a
-            target="_blank"
-            rel="stylesheet noreferrer"
-            href={`https://github.com/${user?.login}`}
-          >
-            GITHUB
-            <FaUpRightFromSquare />
-          </a>
-        </ProfileTitle>
-        <span>{user?.bio}</span>
+          <UserInfo>
+            <ProfileTitle>
+              <h3>{user?.name}</h3>
+              <a
+                target="_blank"
+                rel="stylesheet noreferrer"
+                href={`https://github.com/${user.login}`}
+              >
+                GITHUB
+                <FaUpRightFromSquare />
+              </a>
+            </ProfileTitle>
+            <span>{user?.bio}</span>
 
-        <UserInfoIcons>
-          <span>
-            <FaGithub />
-            {user?.login}
-          </span>
+            <UserInfoIcons>
+              <span>
+                <FaGithub />
+                {user.login}
+              </span>
 
-          <span>
-            <FaBuilding />
-            {user?.company}
-          </span>
+              <span>
+                <FaBuilding />
+                {user?.company}
+              </span>
 
-          <span>
-            <FaUserGroup />
-            {user?.followers} seguidores
-          </span>
-        </UserInfoIcons>
-      </UserInfo>
+              <span>
+                <FaUserGroup />
+                {user.followers} seguidores
+              </span>
+            </UserInfoIcons>
+          </UserInfo>
+        </>
+      )}
     </ProfileContainer>
   )
 }

@@ -2,31 +2,21 @@ import { ReactNode, useCallback, useEffect, useState } from 'react'
 import { createContext } from 'use-context-selector'
 import { api } from '../lib/axios'
 
-interface User {
-  id: number
-  name: string
-  login: string
-  bio: string
-  avatar_url: string
-  company: string | null
-  followers: number
-}
-
-interface Issue {
-  total_count: number
-  items: {
-    id: number
-    number: number
-    title: string
-    state: 'open' | 'closed'
-    body: string
-    created_at: string
-  }[]
+export interface Post {
+  title: string
+  body: string
+  created_at: string
+  number: number
+  html_url: string
+  comments: number
+  user: {
+    login: string
+  }
 }
 
 interface BlogContextType {
-  user: User | undefined
-  issues: Issue | undefined
+  posts: Post[]
+  isLoading: boolean
   fetchIssues: (query?: string) => Promise<void>
 }
 
@@ -36,41 +26,31 @@ interface BlogProviderProps {
   children: ReactNode
 }
 
+const username = import.meta.env.VITE_GITHUB_USERNAME
+
 export function BlogProvider({ children }: BlogProviderProps) {
-  const [user, setUser] = useState<User>()
-  const [issues, setIssues] = useState<Issue>()
+  const [posts, setPosts] = useState<Post[]>([])
+  const [isLoading, setIsLoading] = useState(false)
 
-  const fetchUserInfo = useCallback(async () => {
-    const response = await api.get('users/felipesanderp')
+  const fetchIssues = useCallback(async (query: string = '') => {
+    try {
+      setIsLoading(true)
+      const response = await api.get(
+        `/search/issues?q=${query}%20label:published%20repo:${username}/github-blog`,
+      )
 
-    setUser(response.data)
+      setPosts(response.data.items)
+    } finally {
+      setIsLoading(false)
+    }
   }, [])
-
-  useEffect(() => {
-    fetchUserInfo()
-  }, [fetchUserInfo])
-
-  const fetchIssues = useCallback(
-    async (query: string = '') => {
-      try {
-        const response = await api.get(
-          `/search/issues?q=${query}%20repo:${user?.login}/github-blog`,
-        )
-
-        setIssues(response.data)
-      } catch (error) {
-        console.log(error)
-      }
-    },
-    [user?.login],
-  )
 
   useEffect(() => {
     fetchIssues()
   }, [fetchIssues])
 
   return (
-    <BlogContext.Provider value={{ user, issues, fetchIssues }}>
+    <BlogContext.Provider value={{ posts, isLoading, fetchIssues }}>
       {children}
     </BlogContext.Provider>
   )

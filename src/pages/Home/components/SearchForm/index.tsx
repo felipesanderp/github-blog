@@ -27,7 +27,7 @@ export function SearchForm() {
 
   return (
     <SearchFormContainer onSubmit={handleSubmit(handleSearchIssues)}>
-      <input type="text" placeholder="Buscar conteúdo" {...register} />
+      <input type="text" placeholder="Buscar conteúdo" {...register('query')} />
     </SearchFormContainer>
   )
 }
