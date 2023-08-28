@@ -13,7 +13,7 @@ export function PostCard({ post }: PostCardProps) {
   return (
     <PostCardContainer to={`/post/${post.number}`} state={'open'}>
       <PostCardHeader>
-        <h3>{post.title}</h3>
+        <strong>{post.title}</strong>
         <span>{formattedDate}</span>
       </PostCardHeader>
 

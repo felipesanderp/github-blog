@@ -6,7 +6,8 @@ interface PostContainerProps {
 }
 
 export const PostCardContainer = styled(Link)<PostContainerProps>`
-  height: 15rem;
+  width: 100%;
+  height: 16.25rem;
   border-radius: 10px;
   padding: 2rem;
   background: ${(props) => props.theme['base-post']};
@@ -18,9 +19,6 @@ export const PostCardContainer = styled(Link)<PostContainerProps>`
   transition: 0.2s;
 
   > p {
-    margin-top: 1.25rem;
-
-    max-width: 320px;
     display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
@@ -41,23 +39,27 @@ export const PostCardContainer = styled(Link)<PostContainerProps>`
           }
         `}
 `
-export const PostCardHeader = styled.header`
+export const PostCardHeader = styled.div`
   display: flex;
-  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
 
-  > h3 {
+  > strong {
+    flex: 1;
     font-size: 1.25rem;
-    font-weight: bold;
     color: ${(props) => props.theme['base-title']};
 
-    max-width: 283px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
   }
 
   > span {
+    width: max-content;
     font-size: 0.75rem;
     font-weight: normal;
     color: ${(props) => props.theme['base-span']};
-    width: 100%;
-    max-width: 55px;
   }
 `
